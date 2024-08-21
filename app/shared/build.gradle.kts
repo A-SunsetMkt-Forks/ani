@@ -65,7 +65,7 @@ kotlin {
             }
         }
     }
-    
+
     sourceSets.commonMain.dependencies {
         api(libs.kotlinx.coroutines.core)
         api(libs.kotlinx.serialization.json)
@@ -471,3 +471,26 @@ tasks.withType(KspTaskNative::class.java) {
     dependsOn(generateAniBuildConfigIos)
 }
 
+// 太耗内存了, 只能一次跑一个
+// compose bug, 不能用这个 https://youtrack.jetbrains.com/issue/CMP-5835
+//tasks.filter { it.name.contains("link") && it.name.contains("Framework") && it.name.contains("Ios") }
+//    .sorted()
+//    .let { links ->
+//        links.forEachIndexed { index, task ->
+//            for (index1 in (index + 1)..links.lastIndex) {
+//                task.mustRunAfter(links[index1])
+//            }
+//        }
+//    }
+tasks.named("linkDebugFrameworkIosArm64") {
+    mustRunAfter("linkReleaseFrameworkIosArm64")
+    mustRunAfter("linkDebugFrameworkIosSimulatorArm64")
+    mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
+}
+tasks.named("linkReleaseFrameworkIosArm64") {
+    mustRunAfter("linkDebugFrameworkIosSimulatorArm64")
+    mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
+}
+tasks.named("linkDebugFrameworkIosSimulatorArm64") {
+    mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
+}
