@@ -53,8 +53,10 @@ atomicfu {
     transformJvm = false // 这东西很不靠谱, 等 atomicfu 正式版了可能可以考虑下
 }
 
+val enableIosFramework = getPropertyOrNull("ani.build.framework") != "false"
+
 kotlin {
-    if (getPropertyOrNull("ani.build.framework") != "false") {
+    if (enableIosFramework) {
         listOf(
             iosArm64(),
             iosSimulatorArm64(),
@@ -475,15 +477,18 @@ tasks.withType(KspTaskNative::class.java) {
 //            }
 //        }
 //    }
-tasks.named("linkDebugFrameworkIosArm64") {
-    mustRunAfter("linkReleaseFrameworkIosArm64")
-    mustRunAfter("linkDebugFrameworkIosSimulatorArm64")
-    mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
-}
-tasks.named("linkReleaseFrameworkIosArm64") {
-    mustRunAfter("linkDebugFrameworkIosSimulatorArm64")
-    mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
-}
-tasks.named("linkDebugFrameworkIosSimulatorArm64") {
-    mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
+
+if (enableIosFramework) {
+    tasks.named("linkDebugFrameworkIosArm64") {
+        mustRunAfter("linkReleaseFrameworkIosArm64")
+        mustRunAfter("linkDebugFrameworkIosSimulatorArm64")
+        mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
+    }
+    tasks.named("linkReleaseFrameworkIosArm64") {
+        mustRunAfter("linkDebugFrameworkIosSimulatorArm64")
+        mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
+    }
+    tasks.named("linkDebugFrameworkIosSimulatorArm64") {
+        mustRunAfter("linkReleaseFrameworkIosSimulatorArm64")
+    }
 }
