@@ -97,6 +97,7 @@ kotlin {
         api(projects.utils.coroutines)
         api(projects.utils.io)
         api(projects.app.shared.imageViewer)
+        api(projects.utils.bbcode)
 
         // Ktor
         api(libs.ktor.client.websockets)
@@ -120,17 +121,7 @@ kotlin {
             exclude("org.jetbrains.kotlinx", "atomicfu")
         } // multi-platform database
         api(libs.sqlite.bundled) // database driver implementation
-
-        // Torrent
-        implementation(libs.bencode)
-
         implementation(libs.constraintlayout.compose)
-
-        implementation(libs.jna)
-
-        implementation(libs.slf4j.api)
-
-        implementation(projects.utils.bbcode)
     }
 
     // shared by android and desktop
@@ -147,6 +138,8 @@ kotlin {
         api(projects.dataSources.jellyfin)
         api(projects.dataSources.ikaros)
 
+        implementation(libs.jna)
+        implementation(libs.slf4j.api)
         api(libs.ktor.client.okhttp)
     }
 
