@@ -40,11 +40,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
 import me.him188.ani.app.tools.rememberUiMonoTasker
 import me.him188.ani.app.ui.foundation.theme.aniDarkColorTheme
 import me.him188.ani.app.ui.foundation.theme.slightlyWeaken
-import me.him188.ani.app.videoplayer.ui.guesture.VIDEO_GESTURE_TOUCH_SHOW_CONTROLLER_DURATION
 import me.him188.ani.app.videoplayer.ui.guesture.VideoGestureHost
 import me.him188.ani.app.videoplayer.ui.progress.PlayerControllerBar
 import me.him188.ani.app.videoplayer.ui.top.PlayerTopBar
@@ -199,7 +197,6 @@ fun VideoScaffold(
                                             alwaysOnRequester.request()
                                             didClickBottomBar++
                                             scope.launch {
-                                                delay(VIDEO_GESTURE_TOUCH_SHOW_CONTROLLER_DURATION)
                                                 alwaysOnRequester.cancelRequest()
                                                 didClickBottomBar = 0
                                             }
